@@ -1,2 +1,6 @@
 # Project exclude paths
 /.gradle/
+/.idea/
+/py/.idea/
+/py/.ipynb_checkpoints
+/py/api_playground.ipynb
