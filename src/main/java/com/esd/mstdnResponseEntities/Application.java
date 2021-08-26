@@ -5,9 +5,11 @@ public class Application extends Entity {
         super(jsonString);
     }
 
-    String name;
-    String website;
-    String vapid_key;
-    String client_id;
-    String client_secret;
+    public String id;
+    public String name;
+    public String website;
+    public String redirect_uri;
+    public String vapid_key;
+    public String client_id;
+    public String client_secret;
 }

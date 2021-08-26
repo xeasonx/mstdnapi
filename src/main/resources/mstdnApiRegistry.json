@@ -1,7 +1,7 @@
 [
   {
     "name": "TimelinePublic",
-    "path": "api/v1/timelines/public",
+    "path": "timelines/public",
     "contentType": "application/json",
     "bodyClass": "",
     "requestEntities": [
@@ -14,7 +14,41 @@
     "headers": []
   },
   {
-    "name": "Accounts",
-    "path": "/accounts"
+    "name": "apps",
+    "path": "apps",
+    "contentType": "application/x-www-form-urlencoded",
+    "bodyType": 2,
+    "bodyClass": "com.esd.mstdnRequestEntities.Apps",
+    "method": "POST"
+  },
+  {
+    "name": "oauthAuthorize",
+    "path": "oauth/authorize",
+    "contentType": "application/x-www-form-urlencoded",
+    "bodyType": 3,
+    "method": "GET"
+  },
+  {
+    "name": "oauthToken",
+    "path": "oauth/token",
+    "contentType": "application/x-www-form-urlencoded",
+    "bodyType": 2,
+    "method": "POST"
+  },
+  {
+    "name": "apps_verify_credentials",
+    "path": "apps/verify_credentials",
+    "contentType": "",
+    "bodyType": 1,
+    "bodyClass": "",
+    "method": "GET"
+  },
+  {
+    "name": "accounts",
+    "path": "accounts",
+    "contentType": "application/x-www-form-urlencoded",
+    "bodyType": 2,
+    "bodyClass": "com.esd.mstdnRequestEntities.Accounts",
+    "method": "POST"
   }
 ]

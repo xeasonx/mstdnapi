@@ -2,14 +2,16 @@ package com.esd.mstdnApi;
 
 import okhttp3.*;
 import java.io.File;
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
  * An implementation of RequestBackend, uses OkHttp library.
  */
 public class OkHttpBackend implements RequestBackend {
-    private final OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient.Builder()
+            .connectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT, ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
+            .build();
 
     /**
      * takes request context description in register instance, build request and perform.
@@ -18,6 +20,7 @@ public class OkHttpBackend implements RequestBackend {
      */
     @Override
     public void request(MSTDNRestfulRegister register, ResponseCallback callback) {
+
         Request.Builder requestBuilder = new Request.Builder();
         RequestBody requestBody = null;
         switch (register.bodyType) {
@@ -32,7 +35,8 @@ public class OkHttpBackend implements RequestBackend {
                 requestBody = formBuilder.build();
                 break;
             case BodyType.URL:
-                requestBody = RequestBody.create(register.body.toString(), MediaType.get(register.contentType));
+//                requestBody = RequestBody.create(register.body.toString(), MediaType.get(register.contentType));
+                register.path = register.path + "?" + register.body.toString();
                 break;
             case BodyType.RAW:
                 requestBody = RequestBody.create(register.body.toString(), MediaType.get(register.contentType));
@@ -63,14 +67,21 @@ public class OkHttpBackend implements RequestBackend {
         }
         requestBuilder.url(register.path).method(register.method, requestBody);
         if (register.headers != null) {
-            for (MSTDNRestfulRegister.Header header : register.headers) {
-                requestBuilder.addHeader(header.key, header.value);
+            for (String key : register.headers.keySet()) {
+                requestBuilder.addHeader(key, register.headers.get(key));
             }
         }
         Request request = requestBuilder.build();
-//        try {
-//            client.newCall(request).execute();
-//        } catch (IOException e) {}
         client.newCall(request).enqueue((Callback) callback);
+    }
+
+    @Override
+    public void teardown() {
+        client.dispatcher().executorService().shutdown();
+        System.out.println("tear down");
+    }
+
+    public boolean isTearedDown() {
+        return client.dispatcher().executorService().isShutdown();
     }
 }

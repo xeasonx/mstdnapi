@@ -5,8 +5,8 @@ public class Token extends Entity {
         super(jsonString);
     }
 
-    String access_token;
-    String token_type;
-    String scope;
-    int created_at;
+    public String access_token;
+    public String token_type;
+    public String scope;
+    public int created_at;
 }

@@ -29,4 +29,8 @@ public interface RequestBackend {
      * @param callback, String, to invoke a RequestBackend instance
      */
     public void request(MSTDNRestfulRegister register, ResponseCallback callback);
+
+    public void teardown();
+
+    public boolean isTearedDown();
 }

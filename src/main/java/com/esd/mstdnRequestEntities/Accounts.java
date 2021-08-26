@@ -18,15 +18,6 @@ public class Accounts extends RequestEntity {
         this.locale = locale;
     }
 
-    public Accounts(String username, String password, String email, boolean agreement, String locale, String reason) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.agreement = agreement;
-        this.locale = locale;
-        this.reason = reason;
-    }
-
     @Override
     public String toString() {
         return toJsonString();

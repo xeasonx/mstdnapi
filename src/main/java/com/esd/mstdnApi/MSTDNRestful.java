@@ -1,11 +1,6 @@
 package com.esd.mstdnApi;
 
-import com.esd.mstdnRequestEntities.RequestEntity;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-
+import com.esd.ApiPlayground;
 
 /**
  * This class performs actual API requests.
@@ -25,6 +20,10 @@ public class MSTDNRestful {
         this.requestBackend = RequestBackend.getBackend(backendClass);
     }
 
+    public MSTDNRestful(String backendClass) {
+        this.requestBackend = RequestBackend.getBackend(backendClass);
+    }
+
     /**
      * register setter
      * @param register, MSTDNRestfulRegister instance that contains request context description
@@ -37,8 +36,21 @@ public class MSTDNRestful {
      * callbackClass setter
      * @param callbackClass, String, fully qualified class name, this class must be a subclass of ResponseCallback
      */
-    public void setResponseCallback(String callbackClass) {
+    public void setResponseCallback(String callbackClass, ApiPlayground.ObservableResponse observableResponse) {
         this.responseCallback = ResponseCallback.getCallback(callbackClass);
+        if (observableResponse != null && this.responseCallback != null) {
+            {
+                this.responseCallback.setObservableResponse(observableResponse);
+            }
+        }
+    }
+
+    public MSTDNRestfulRegister getRegister() {
+        return register;
+    }
+
+    public RequestBackend getRequestBackend() {
+        return requestBackend;
     }
 
     /**
@@ -46,5 +58,13 @@ public class MSTDNRestful {
      */
     public void performRequest() {
         requestBackend.request(register, responseCallback);
+    }
+
+    public void finishRequest() {
+        requestBackend.teardown();
+    }
+
+    public boolean isFinished() {
+        return requestBackend.isTearedDown();
     }
 }

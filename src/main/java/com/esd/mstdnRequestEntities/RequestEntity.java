@@ -1,7 +1,6 @@
 package com.esd.mstdnRequestEntities;
 
 import com.google.gson.Gson;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,6 +64,8 @@ public abstract class RequestEntity {
     public String concatParams(String delimiter, boolean valueOnly) throws Exception {
         ArrayList<String> queryArray = new ArrayList<>();
         Field[] fields = this.getClass().getFields();
+        System.out.println(delimiter);
+        System.out.println(valueOnly);
         if (valueOnly) {
             for (Field field : fields) {
                 Object value = field.get(this);
